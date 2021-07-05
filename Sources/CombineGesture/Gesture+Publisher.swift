@@ -74,6 +74,13 @@ extension View {
             targetView: self
         )
     }
+
+    public func panGesture(_ gesture: UIPanGestureRecognizer = .init()) -> Publishers.GesturePublisher<UIPanGestureRecognizer> {
+        Publishers.GesturePublisher(
+            gesture: gesture,
+            targetView: self
+        )
+    }
 }
 
 extension Publishers.GesturePublisher {
