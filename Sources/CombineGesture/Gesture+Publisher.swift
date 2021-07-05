@@ -1,6 +1,9 @@
 import Combine
 import Foundation
 
+#if canImport(UIKit)
+import UIKit
+
 extension Publishers {
     public struct GesturePublisher<Gesture: GestureRecognizer>: Publisher {
         public typealias Output = Gesture
@@ -23,8 +26,8 @@ extension Publishers {
         }
     }
 
-    private final class GestureSubscription<S: Subscriber, G: GestureRecognizer, V: View>:
-        Subscription where S.Input == G {
+    private final class GestureSubscription<S: Subscriber, G: GestureRecognizer, V: View>: Subscription where
+        S.Input == G {
         private weak var gesture: G?
         private weak var targetView: V?
         private var subscriber: S?
@@ -64,23 +67,7 @@ extension View {
             targetView: self
         )
     }
-}
 
-extension Publishers.GesturePublisher {
-    public func when(_ states: GestureRecognizerState...) -> AnyPublisher<Gesture, Never> {
-        filter { states.contains($0.state) }.eraseToAnyPublisher()
-    }
-}
-
-extension AnyPublisher where Output == GestureRecognizer, Failure == Never {
-    public func location(in view: TargetView) -> AnyPublisher<Point, Never> {
-        map { $0.location(in: view.targetView(for: $0)) }.eraseToAnyPublisher()
-    }
-}
-
-#if canImport(UIKit)
-import UIKit
-extension View {
     public func tap(_ gesture: UITapGestureRecognizer = .init()) -> Publishers.GesturePublisher<UITapGestureRecognizer> {
         Publishers.GesturePublisher(
             gesture: gesture,
@@ -89,8 +76,20 @@ extension View {
     }
 }
 
-extension AnyPublisher where Output == UIPanGestureRecognizer, Failure == Never {
-    public func velocityAndlocation(in view: TargetView) -> AnyPublisher<(loction: Point, velocity: Point), Never> {
+extension Publishers.GesturePublisher {
+    public func when(_ states: GestureRecognizerState...) -> AnyPublisher<Gesture, Never> {
+        filter { states.contains($0.state) }.eraseToAnyPublisher()
+    }
+}
+
+extension AnyPublisher where Output: GestureRecognizer, Failure == Never {
+    public func location(in view: TargetView = .view) -> AnyPublisher<Point, Never> {
+        map { $0.location(in: view.targetView(for: $0)) }.eraseToAnyPublisher()
+    }
+}
+
+extension AnyPublisher where Output: UIPanGestureRecognizer, Failure == Never {
+    public func velocityAndlocation(in view: TargetView = .view) -> AnyPublisher<(loction: Point, velocity: Point), Never> {
         map {
             let targetView = view.targetView(for: $0)
             let location = $0.location(in: targetView)
