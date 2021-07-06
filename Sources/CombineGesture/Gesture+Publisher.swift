@@ -9,10 +9,10 @@ extension Publishers {
         public typealias Output = Gesture
         public typealias Failure = Never
 
-        private let view: View
+        private let view: PlatFormView
         private let gesture: Gesture
 
-        public init(gesture: Gesture, targetView: View) {
+        public init(gesture: Gesture, targetView: PlatFormView) {
             self.gesture = gesture
             self.view = targetView
         }
@@ -26,7 +26,7 @@ extension Publishers {
         }
     }
 
-    private final class GestureSubscription<S: Subscriber, G: GestureRecognizer, V: View>: Subscription where
+    private final class GestureSubscription<S: Subscriber, G: GestureRecognizer, V: PlatFormView>: Subscription where
         S.Input == G {
         private weak var gesture: G?
         private weak var targetView: V?
@@ -60,7 +60,7 @@ extension Publishers {
     }
 }
 
-extension View {
+extension PlatFormView {
     public func gesture<Gesture: GestureRecognizer>(_ gesture: Gesture) -> Publishers.GesturePublisher<Gesture> {
         Publishers.GesturePublisher(
             gesture: gesture,

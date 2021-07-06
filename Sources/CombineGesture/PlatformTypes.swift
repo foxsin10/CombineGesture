@@ -6,7 +6,7 @@ public typealias Touch = UITouch
 public typealias GestureRecognizer = UIGestureRecognizer
 public typealias GestureRecognizerState = UIGestureRecognizer.State
 public typealias GestureRecognizerDelegate = UIGestureRecognizerDelegate
-public typealias View = UIView
+public typealias PlatFormView = UIView
 public typealias Point = CGPoint
 #elseif os(OSX)
 import AppKit
@@ -14,7 +14,7 @@ public typealias Touch = NSTouch
 public typealias GestureRecognizer = NSGestureRecognizer
 public typealias GestureRecognizerState = NSGestureRecognizer.State
 public typealias GestureRecognizerDelegate = NSGestureRecognizerDelegate
-public typealias View = NSView
+public typealias PlatFormView = NSView
 public typealias Point = NSPoint
 #endif
 
@@ -29,9 +29,9 @@ public enum TargetView {
     case window
 
     /// The view, on which the gesture will be added 
-    case target(View)
+    case target(PlatFormView)
 
-    public func targetView(for gestureRecognizer: GestureRecognizer) -> View? {
+    public func targetView(for gestureRecognizer: GestureRecognizer) -> PlatFormView? {
         switch self {
         case .view: return gestureRecognizer.view
         case .superview: return gestureRecognizer.view?.superview
