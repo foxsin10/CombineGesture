@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
     s.name         = "CombineGesture"
-    s.version      = "0.3.0"
+    s.version      = "0.4.0"
     s.summary      = "convenience wrapper api when using combine and gesture"
   
     s.description  = <<-DESC
