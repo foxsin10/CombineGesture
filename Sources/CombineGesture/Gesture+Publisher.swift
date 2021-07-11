@@ -68,7 +68,7 @@ extension PlatFormView {
         )
     }
 
-    public func tap(_ gesture: UITapGestureRecognizer = .init()) -> Publishers.GesturePublisher<UITapGestureRecognizer> {
+    public func tapGesture(_ gesture: UITapGestureRecognizer = .init()) -> Publishers.GesturePublisher<UITapGestureRecognizer> {
         Publishers.GesturePublisher(
             gesture: gesture,
             targetView: self
